@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Resizable - Default functionality</title>
+  <link rel="stylesheet" href="/css/jquery-ui.css">
+  <script src="/js/jquery-1.10.2.js"></script>
+  <script src="/js/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+  .ui-widget-content { width: 150px; height: 150px; padding: 0.5em; float: left; position: absolute; line-height: 150px }
+  .ui-widget-content h3 { text-align: center; margin: 0; }
+  </style>
+  <script>
+  $(function() {
+    $( ".ui-widget-content" ).resizable({
+        resize: function() {
+            var x = $(this).offset().left;
+            var y = $(this).offset().top;
+            var width = $(this).width();
+            var height = $(this).height();
+            
+            $(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
+            $(this).css("line-height", height + "px"); 
+        }
+    });
+    
+    $( ".ui-widget-content").draggable({
+        drag: function() {
+            var x = $(this).offset().left;
+            var y = $(this).offset().top;
+            var width = $(this).width();
+            var height = $(this).height();
+            
+            $(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
+        }
+    });
+  });
+
+  </script>
+</head>
+<body>
+ 
+<div id="resizable" class="ui-widget-content">
+  <h3 class="ui-widget-header">Resizable</h3>
+</div>
+
+<div id="resizable1" class="ui-widget-content">
+  <h3 class="ui-widget-header">Resizable1</h3>
+</div>
+
+<div id="resizable2" class="ui-widget-content">
+  <h3 class="ui-widget-header">Resizable2</h3>
+</div>
+ 
+ 
+</body>
+</html>
