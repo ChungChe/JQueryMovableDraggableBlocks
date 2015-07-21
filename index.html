@@ -13,6 +13,19 @@
   </style>
   <script>
   $(function() {
+    var xhr = $.getJSON("/api/blocks", function() {
+          console.log("success");
+    })
+    .done(function() {
+          console.log("done");
+        })
+    .fail(function(d, stat, err) {
+          console.log("fail: " + stat + ", err: " + err );
+        })
+    .always(function() {
+          console.log("always");
+        });
+
     $( ".ui-widget-content" ).resizable({
         resize: function() {
             var x = $(this).offset().left;
