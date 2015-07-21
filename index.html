@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/css/jquery-ui.css">
   <script src="/js/jquery-1.10.2.js"></script>
   <script src="/js/jquery-ui.js"></script>
+  <script src="/js/jquery.ui.touch-punch.min.js"></script>
   <link rel="stylesheet" href="/css/style.css">
   <style>
   .ui-widget-content { width: 150px; height: 150px; padding: 0.5em; float: left; position: absolute; line-height: 150px }
@@ -13,59 +14,69 @@
   </style>
   <script>
   $(function() {
-    var xhr = $.getJSON("/api/blocks", function() {
-          console.log("success");
-    })
-    .done(function() {
-          console.log("done");
-        })
-    .fail(function(d, stat, err) {
-          console.log("fail: " + stat + ", err: " + err );
-        })
-    .always(function() {
-          console.log("always");
-        });
-
-    $( ".ui-widget-content" ).resizable({
-        resize: function() {
-            var x = $(this).offset().left;
-            var y = $(this).offset().top;
-            var width = $(this).width();
-            var height = $(this).height();
-            
-            $(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
-            $(this).css("line-height", height + "px"); 
-        }
-    });
-    
-    $( ".ui-widget-content").draggable({
-        drag: function() {
-            var x = $(this).offset().left;
-            var y = $(this).offset().top;
-            var width = $(this).width();
-            var height = $(this).height();
-            
-            $(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
-        }
-    });
   });
 
   </script>
 </head>
 <body>
- 
-<div id="resizable" class="ui-widget-content">
+
+<!--
+<div id="resizable999" class="ui-widget-content">
   <h3 class="ui-widget-header">Resizable</h3>
 </div>
 
-<div id="resizable1" class="ui-widget-content">
+<div id="resizable888" class="ui-widget-content">
   <h3 class="ui-widget-header">Resizable1</h3>
 </div>
 
-<div id="resizable2" class="ui-widget-content">
+<div id="resizable777" class="ui-widget-content">
   <h3 class="ui-widget-header">Resizable2</h3>
 </div>
- 
+
+-->
+
+<script>
+    var xhr = $.getJSON("/api/blocks", function(data) {
+          console.log("success");
+          $.each(data, function(i, val) {
+            console.log("i="+i+", val=" +val);
+            $("body").append('<div id="resizable' + i + '" class="ui-widget-content"><h3 class="ui-widget-header">' + val + '</h3></div>');
+          });
+    })
+    .done(function() {
+          console.log("done");
+          $( ".ui-widget-content" ).resizable({
+              resize: function() {
+                  console.log(name);
+                  var x = $(this).offset().left;
+                  var y = $(this).offset().top;
+                  var width = $(this).width();
+                  var height = $(this).height();
+                  
+                  //$(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
+                  $(this).css("line-height", height + "px"); 
+              }
+          });
+          
+          $( ".ui-widget-content").draggable({
+              drag: function() {
+                  var x = $(this).offset().left;
+                  var y = $(this).offset().top;
+                  var width = $(this).width();
+                  var height = $(this).height();
+                  
+                  //$(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
+              }
+          });
+    })
+    .fail(function(d, stat, err) {
+          console.log("fail: " + stat + ", err: " + err );
+    })
+    .always(function() {
+          console.log("always");
+    });
+
+</script>
  
 </body>
 </html>
