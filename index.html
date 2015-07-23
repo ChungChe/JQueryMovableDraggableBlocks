@@ -27,56 +27,90 @@
     <h1>JQuery Drag & Resize Example</h1>
     <div data-role="navbar">
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Page Two</a></li>
-        <li><a href="#">Search</a></li>
+        <li id="addBlock"><a>Add Block</a></li>
+        <li id="randomMove"><a>Random Move</a></li>
+        <li id="removeAllBlocks"><a>Remove All Block</a></li>
       </ul>
     </div>
   </div>
 
   <div data-role="main" class="ui-content">
-    <p>Drag block & move block ...</p>
+    <p>Drag block & resize block ...</p>
 
 
 <script>
+    function addResizable() {
+        $( ".ui-widget-content" ).resizable({
+            resize: function() {
+                console.log(name);
+                var x = $(this).offset().left;
+                var y = $(this).offset().top;
+                var width = $(this).width();
+                var height = $(this).height();
+                
+                //$(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
+                $(this).css("line-height", height + "px"); 
+            }
+        });
+    }
+    function addDraggable() {
+        $( ".ui-widget-content").draggable({
+            drag: function() {
+                var x = $(this).offset().left;
+                var y = $(this).offset().top;
+                var width = $(this).width();
+                var height = $(this).height();
+                
+                //$(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
+            }
+        });
+    }
+    var totalBlock = 0;
     var xhr = $.getJSON("/api/blocks", function(data) {
-          console.log("success");
-          $.each(data, function(i, val) {
-            console.log("i="+i+", val=" +val);
-            $(".ui-content").append('<div id="resizable' + i + '" class="ui-widget-content"><h3 class="ui-widget-header">' + val + '</h3></div>');
-          });
+        totalBlock = Object.keys(data).length;
+        console.log("success read with "+ totalBlock + " objects");
+        $.each(data, function(i, val) {
+          console.log("i="+i+", val=" +val);
+          $(".ui-content").append('<div id="resizable' + i + '" class="ui-widget-content"><h3 class="ui-widget-header">' + val + '</h3></div>');
+        });
     })
     .done(function() {
-          console.log("done");
-          $( ".ui-widget-content" ).resizable({
-              resize: function() {
-                  console.log(name);
-                  var x = $(this).offset().left;
-                  var y = $(this).offset().top;
-                  var width = $(this).width();
-                  var height = $(this).height();
-                  
-                  //$(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
-                  $(this).css("line-height", height + "px"); 
-              }
-          });
-          
-          $( ".ui-widget-content").draggable({
-              drag: function() {
-                  var x = $(this).offset().left;
-                  var y = $(this).offset().top;
-                  var width = $(this).width();
-                  var height = $(this).height();
-                  
-                  //$(this).find("h3").text("(" + x + ", " + y + ") + (" + width +", " + height + ")");
-              }
-          });
+        console.log("done");
+        addResizable();
+        addDraggable();
     })
     .fail(function(d, stat, err) {
-          console.log("fail: " + stat + ", err: " + err );
+        console.log("fail: " + stat + ", err: " + err );
     })
     .always(function() {
-          console.log("always");
+        console.log("always");
+    });
+    $("#addBlock").click(function() {
+        $(".ui-content").append('<div id="resizable' + totalBlock + '" class="ui-widget-content"><h3 class="ui-widget-header">' + "block" + totalBlock + '</h3></div>');
+        addResizable();
+        addDraggable();
+        totalBlock += 1;
+    });
+    $("#randomMove").click(function() {
+        $(".ui-widget-content").each(function(i) {
+            var $currentObj = $(this)
+            
+            var moveTo_x = Math.floor(Math.random() * 1000);
+            var moveTo_y = 100 + Math.floor(Math.random() * 700);
+            var randomMS = Math.floor(Math.random() * 1000);
+
+
+            $(this).animate({
+                left: moveTo_x,
+                top: moveTo_y
+            }, randomMS);
+        });
+    });
+    $("#removeAllBlocks").click(function() {
+        $(".ui-widget-content").fadeOut("slow", function() {
+            $(".ui-widget-content").remove();
+            totalBlock = 0;
+        });
     });
 
 </script>
