@@ -92,11 +92,16 @@
         totalBlock += 1;
     });
     $("#randomMove").click(function() {
+        var viewPortWidth = $(window).width();
+        var viewPortHeight = $(window).height();
+        console.log(viewPortWidth);
+        console.log(viewPortHeight);
+        var widthRange = viewPortWidth - 150;
+        var heightRange = viewPortHeight - 230;
         $(".ui-widget-content").each(function(i) {
             var $currentObj = $(this)
-            
-            var moveTo_x = Math.floor(Math.random() * 1000);
-            var moveTo_y = 100 + Math.floor(Math.random() * 700);
+            var moveTo_x = Math.floor(Math.random() * widthRange);
+            var moveTo_y = 70 + Math.floor(Math.random() * heightRange);
             var randomMS = Math.floor(Math.random() * 1000);
 
 
