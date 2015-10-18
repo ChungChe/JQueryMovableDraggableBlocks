@@ -14,3 +14,6 @@ Three buttons to
 Demo:
 
 https://output.jsbin.com/guvomi
+
+https://jsbin.com/guvomi/edit?html,output
+
